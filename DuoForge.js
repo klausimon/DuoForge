@@ -2,7 +2,7 @@
 // @name                Ataberk's DuoForge
 
 // @namespace           https://github.com/klausimon/DuoForge
-// @version             1.0.0
+// @version             1.0.1
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 
 // @author              klausimon / Ataberk
@@ -70,6 +70,8 @@
             gems_run_label: 'Click "RUN" to Farm Gems',
             streak_question: 'How many Streak days to restore?',
             extra_features: 'Extra Features',
+            version: 'Version',
+            changelog_title: 'Changelog',
 
             // ── Page 2 (extra features) ──
             back: 'Back',
@@ -291,6 +293,8 @@
             'DH_Gem_Run_Label': 'gems_run_label',
             'DH_Streak_Question': 'streak_question',
             'DH_ExtraFeatures_Lbl': 'extra_features',
+            'DH_Version_Lbl': 'version',
+            'DH_Changelog_Title': 'changelog_title',
             // Page 2
             'DH_Back_Txt': 'back',
             'DH_Practice_Question': 'farm_practice',
@@ -845,6 +849,44 @@
     outline:2px solid rgba(var(--DH-blue),0.20); outline-offset:-2px;
     background:linear-gradient(0deg,rgba(var(--DH-blue),0.10),rgba(var(--DH-blue),0.10)),rgb(var(--color-snow),0.80);
     backdrop-filter:blur(16px);
+}
+
+.DH_Version_Section {
+    display:flex; align-items:center; justify-content:space-between; align-self:stretch;
+    padding:8px 12px; box-sizing:border-box; border-radius:8px;
+    outline:2px solid rgba(var(--DH-blue),0.15); outline-offset:-2px;
+    background:linear-gradient(0deg,rgba(var(--DH-blue),0.05),rgba(var(--DH-blue),0.05)),rgb(var(--color-snow),0.80);
+    backdrop-filter:blur(16px);
+    cursor:pointer; user-select:none; -webkit-user-select:none;
+    transition:filter 0.3s cubic-bezier(0.16,1,0.32,1), transform 0.3s cubic-bezier(0.16,1,0.32,1), outline 0.3s cubic-bezier(0.16,1,0.32,1);
+}
+.DH_Version_Section:hover {
+    outline-color:rgba(var(--DH-blue),0.35);
+    filter:brightness(0.95);
+    transform:scale(1.02);
+}
+.DH_Version_Section:active {
+    filter:brightness(0.90);
+    transform:scale(0.98);
+}
+.DH_Version_Dot {
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:rgb(var(--DH-green,88,204,2));
+    box-shadow:0 0 6px rgba(var(--DH-green,88,204,2),0.6);
+    flex-shrink:0;
+    transition:background 0.3s, box-shadow 0.3s;
+}
+.DH_Version_Badge {
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:11px; font-weight:800; color:rgb(var(--DH-blue));
+    background:rgba(var(--DH-blue),0.12);
+    padding:2px 8px; border-radius:20px;
+    outline:1px solid rgba(var(--DH-blue),0.22); outline-offset:-1px;
+    letter-spacing:0.2px;
+}
+.DH_Version_Section:hover #DH_Version_Chevron {
+    opacity:0.8!important;
+    transform:translateX(2px);
 }
 
 .DH_Btn_Eel {
@@ -1676,14 +1718,24 @@
 
 
             <div class="DH_Btn DH_Btn_Blue_Ghost DH_NoSel" id="DH_Settings_Btn" style="align-self:stretch; justify-content:space-between; padding:10px 12px;">
-        <p class="DH_T1 DH_NoSel" id="DH_ExtraFeatures_Lbl" style="color:rgb(var(--DH-blue));">Extra Features</p>
-    <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-</div>
+                <p class="DH_T1 DH_NoSel" id="DH_ExtraFeatures_Lbl" style="color:rgb(var(--DH-blue));">Extra Features</p>
+                <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
 
-
-            <div class="DH_HStack_Auto" style="justify-content:flex-end;">
+            <!-- Version Section under Extra Features -->
+            <div class="DH_Version_Section DH_NoSel" id="DH_Version_Section" title="Click to view Changelog">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span class="DH_Version_Dot"></span>
+                    <p class="DH_T1 DH_NoSel" id="DH_Version_Lbl" style="font-size:13px;font-weight:700;color:rgb(var(--color-wolf,60,60,67),0.70);">Version</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px;">
+                    <span class="DH_Version_Badge" id="DH_Version_Txt">v1.0.1</span>
+                    <svg width="7" height="11" viewBox="0 0 8 13" fill="none" style="opacity:0.4;transition:all 0.2s;" id="DH_Version_Chevron">
+                        <path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             </div>
         </div>
 
@@ -2040,6 +2092,8 @@
                 <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1L2 8l6 7" stroke="rgb(var(--color-wolf,60,60,67))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <p class="DH_T1" id="DH_Changelog_Back_Txt">Back</p>
             </div>
+            <p class="DH_T1 DH_NoSel" id="DH_Changelog_Title" style="font-size:14px;font-weight:800;align-self:stretch;">Changelog</p>
+            <div class="DH_Divider"></div>
             <div style="width:100%;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:360px;padding-right:2px;" class="DH_Scroll_Inner" id="DH_Changelog_List">
                 <!-- populated by JS -->
             </div>
@@ -3803,16 +3857,25 @@
         }
 
         const _GF_SCRIPT_URL = 'https://github.com/klausimon/DuoForge';
-        const _CURRENT_VER = '1.0.0';
+        const _CURRENT_VER = '1.0.1';
 
         /* ── Changelog Popup ── */
-        const _CHANGELOG = [{
-            version: '1.0.0',
-            changes: [
-                'Initial v1.0.0 release',
-                'Added auto-update support from GitHub repository',
-            ]
-        },];
+        const _CHANGELOG = [
+            {
+                version: '1.0.1',
+                changes: [
+                    'Added version indicator to main menu',
+                    'Interactive changelog viewer',
+                ]
+            },
+            {
+                version: '1.0.0',
+                changes: [
+                    'Initial v1.0.0 release',
+                    'Added auto-update support from GitHub repository',
+                ]
+            }
+        ];
 
         function _isNewerVersion(remote, current) {
             const r = remote.replace(/^v/i, '').split('.').map(n => parseInt(n, 10) || 0);
@@ -3837,6 +3900,11 @@
                     if (_isNewerVersion(remoteVer, _CURRENT_VER)) {
                         _remoteVersion = remoteVer;
                         _isOutdated = true;
+                        const vDot = document.querySelector('.DH_Version_Dot');
+                        if (vDot) {
+                            vDot.style.background = 'rgb(var(--DH-orange, 255, 150, 0))';
+                            vDot.style.boxShadow = '0 0 6px rgba(var(--DH-orange, 255, 150, 0), 0.6)';
+                        }
                         if (_currentConnState === 'connected') {
                             _setConn('connected');
                         }
@@ -4072,6 +4140,9 @@
                 _renderReactionPicker();
             } else if (to === 4) {
                 box.style.width = '340px';
+            } else if (to === 10) {
+                box.style.width = '340px';
+                _renderChangelog();
             } else {
                 box.style.width = '';
             }
@@ -4116,6 +4187,8 @@
                 } else if (to === 4) {
                     const delI = document.getElementById('DH_Delay_Input');
                     if (delI) delI.value = _delay;
+                } else if (to === 10) {
+                    _renderChangelog();
                 }
                 setTimeout(() => {
                     box.style.height = '';
@@ -6528,6 +6601,13 @@
             _goPage(2);
             _initHideProfileToggle();
         });
+        const verSec = document.getElementById('DH_Version_Section');
+        if (verSec) {
+            verSec.addEventListener('click', () => {
+                _renderChangelog();
+                _goPage(10);
+            });
+        }
         document.getElementById('DH_Back_Btn').addEventListener('click', () => _goBack());
         document.getElementById('DH_Shop_Btn').addEventListener('click', () => _goPage(3));
         document.getElementById('DH_Shop_Back_Btn').addEventListener('click', () => _goBack());
