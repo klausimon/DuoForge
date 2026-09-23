@@ -2,10 +2,14 @@
 // @name                Ataberk's DuoForge
 
 // @namespace           https://github.com/klausimon/DuoForge
-// @version             23.09.2026
+// @version             1.0.0
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 
 // @author              klausimon / Ataberk
+// @homepageURL         https://github.com/klausimon/DuoForge
+// @supportURL          https://github.com/klausimon/DuoForge/issues
+// @updateURL           https://raw.githubusercontent.com/klausimon/DuoForge/main/DuoForge.js
+// @downloadURL         https://raw.githubusercontent.com/klausimon/DuoForge/main/DuoForge.js
 
 // @match               https://*.duolingo.com/*
 // @match               https://*.duolingo.cn/*
@@ -17,14 +21,9 @@
 // @connect             stories.duolingo.com
 // @connect             goals-api.duolingo.com
 // @connect             duolingo-leaderboards-prod.duolingo.com
-// @connect             raw.githubusercontent.com
-// @connect             avatars.githubusercontent.com
-// @connect             greasyfork.org
-// @connect             assets.duohacker.io.vn
-// @connect             d35aaqx5ub95lt.cloudfront.net
-// @connect             font.duohacker.io.vn
 // @connect             simg-ssl.duolingo.com
-// @connect             d3gq3s1iyyx31w.cloudfront.net/
+// @connect             d35aaqx5ub95lt.cloudfront.net
+// @connect             raw.githubusercontent.com
 
 // @compatible          chrome   Tested on Chrome 120+ with Tampermonkey
 // @compatible          firefox  Tested on Firefox 120+ with Tampermonkey / Violentmonkey
@@ -3803,16 +3802,50 @@
             if (fill) fill.style.width = '100%';
         }
 
-        const _GF_SCRIPT_URL = 'https://greasyfork.org/en/scripts/561041-duolingo-duohacker';
-        const _CURRENT_VER = '2026.08.28';
+        const _GF_SCRIPT_URL = 'https://github.com/klausimon/DuoForge';
+        const _CURRENT_VER = '1.0.0';
 
-        /* ── Changelog Popup -*/
+        /* ── Changelog Popup ── */
         const _CHANGELOG = [{
-            version: '2026.08.28',
+            version: '1.0.0',
             changes: [
-                'Added Duolingo domain to //@connect',
+                'Initial v1.0.0 release',
+                'Added auto-update support from GitHub repository',
             ]
         },];
+
+        function _isNewerVersion(remote, current) {
+            const r = remote.replace(/^v/i, '').split('.').map(n => parseInt(n, 10) || 0);
+            const c = current.replace(/^v/i, '').split('.').map(n => parseInt(n, 10) || 0);
+            const len = Math.max(r.length, c.length);
+            for (let i = 0; i < len; i++) {
+                const rv = r[i] || 0;
+                const cv = c[i] || 0;
+                if (rv > cv) return true;
+                if (rv < cv) return false;
+            }
+            return false;
+        }
+
+        async function _checkUpdate() {
+            try {
+                const r = await _gm('GET', 'https://raw.githubusercontent.com/klausimon/DuoForge/main/DuoForge.js?_ts=' + Date.now());
+                if (r.status !== 200) return;
+                const m = r.responseText.match(/@version\s+([^\s\r\n]+)/);
+                if (m && m[1]) {
+                    const remoteVer = m[1].trim();
+                    if (_isNewerVersion(remoteVer, _CURRENT_VER)) {
+                        _remoteVersion = remoteVer;
+                        _isOutdated = true;
+                        if (_currentConnState === 'connected') {
+                            _setConn('connected');
+                        }
+                    }
+                }
+            } catch (e) {
+                // Silently ignore update check errors
+            }
+        }
 
         function _setConn(state, label) {
             _currentConnState = state;
@@ -4326,6 +4359,7 @@
                     _renderAccounts(); // Load account manager
                     _loadMonthlyQuests(); // Load monthly quests
                     _loadLicense(); // Load license
+                    _checkUpdate(); // Check for newer version on GitHub
                     // Prefetch leaderboard so page 11 opens instantly
                     _fetchLeaderboard().then(lb => { _lbCache = lb; }).catch(() => { });
                 }, 500);
@@ -7008,7 +7042,7 @@ body * {
         const CREDITS = [{
             script: 'DuoForge',
             url: 'https://github.com/klausimon',
-            thumbnail: 'https://avatars.githubusercontent.com/u/1234567?v=4', 
+            thumbnail: 'https://avatars.githubusercontent.com/u/1234567?v=4',
             author: 'klausimon / Ataberk',
             task: 'Maintainer and Updater'
         }];
